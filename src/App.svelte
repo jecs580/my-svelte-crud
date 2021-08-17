@@ -20,6 +20,18 @@
 			state:false
 		}
 	}
+	const delTodo = (id)=>{
+		todoList = todoList.filter(item => item.id !==id);
+	}
+	const editTodo = (id)=>{
+		todoList = todoList.map(item=> {
+			return item.id ===id ? {...item, estado: !item.estado} : item
+	})
+	}
+	const classIcono = valor =>(
+		valor ? "bi bi-arrow-clockwise": "bi bi-check2"
+	)
+	const classEstado =valor =>valor?'btn-success':'btn-warning'
 </script>
 <div class="container">
 	<h1 class="display-5 my-3"> CRUD</h1>
@@ -33,13 +45,15 @@
 	</form>
 	{#each todoList as item}
 	<div class="shadow my-3 p-3 lead">
-		<p>
+		<p
+		class={item.estado?'text-decoration-line-through':''}
+		>
 			{item.content}
 		</p>
-		<button class="btn btn-sm btn-warning">
-			<i class="bi bi-check2"></i>
+		<button class="btn btn-sm {classEstado(item.estado)}" on:click={editTodo(item.id)}>
+			<i class={classIcono(item.estado)}></i>
 		</button>
-		<button class="btn btn-sm btn-danger">
+		<button class="btn btn-sm btn-danger" on:click={delTodo(item.id)}>
 			<i class="bi bi-trash"></i>
 		</button>
 	</div>
