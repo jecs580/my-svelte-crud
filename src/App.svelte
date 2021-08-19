@@ -5,6 +5,10 @@
 		content:'',
 		state:false
 	}
+	if(localStorage.getItem('todoList')){
+		todoList = JSON.parse(localStorage.getItem('todoList'));
+	}
+	$: localStorage.setItem('todoList',JSON.stringify(todoList))
 	const addTodo = ()=>{
 		if(!todo.content.trim()){
 			console.log('Texto vacio');
