@@ -1,4 +1,12 @@
 <script>
+	import { Toast } from 'bootstrap'
+	let toastEl;
+	$:console.log(toastEl);
+	let opc = {texto:'', color:''}
+	const mostrarToast = (texto, color)=>{
+		opc ={texto,color}
+		new Toast(toastEl).show()
+	}
 	let todoList = []
 	let todo ={
 		id:'',
@@ -23,14 +31,17 @@
 			content:'',
 			state:false
 		}
+		mostrarToast('Todo Agregado','bg-primary')
 	}
 	const delTodo = (id)=>{
 		todoList = todoList.filter(item => item.id !==id);
+		mostrarToast('Todo eliminado','bg-danger')
 	}
 	const editTodo = (id)=>{
 		todoList = todoList.map(item=> {
 			return item.id ===id ? {...item, estado: !item.estado} : item
-	})
+		})
+		mostrarToast('Todo Agregado','bg-warning')
 	}
 	const classIcono = valor =>(
 		valor ? "bi bi-arrow-clockwise": "bi bi-check2"
@@ -62,4 +73,14 @@
 		</button>
 	</div>
 	{/each}
+	<div class="toast-container position-absolute p-3 top-0 end-0">
+		<div bind:this={toastEl} class="toast align-items-center text-white {opc.color} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="d-flex">
+			  <div class="toast-body">
+				{opc.texto}
+			  </div>
+			  <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+		</div>
+	</div>
 </div>
